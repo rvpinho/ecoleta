@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Todos os pontos</title>
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/styles/all-results.css">
+    <link rel="stylesheet" href="/styles/modal.css">
+{% endblock styles %}
+
+{% set pageId = "page-all-results" %}
+{% block content %}
+    {% include "partials/page-header.html" %}
+    <main>
+        {% if places.length > 0 %}
+
+            <h4>
+                <strong>{{places.length}}
+                    pontos</strong>
+                encontrados
+            </h4>
+
+            <div class="cards">
+                {% for place in places %}
+                    <div class="card">
+                        <img src="{{place.image}}" alt="{{place.name}}">
+
+                        <form action="/deletepoint" method="POST" class="titleAndExcluded" >
+                            <h1>{{place.name}}</h1>
+                            <button type="submit">Excluir</button>
+                            <input type="hidden" name="item" value="{{place.id}}">
+                        </form>
+
+                        <h3>{{place.items}}</h3>
+                        <p>
+                            {{place.city}},
+                            {{place.state}}
+                            <br/>
+                            {{place.address}}
+                            <br/>
+                            {{place.address2}}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+        {% else %}
+            <h4><strong>Nenhum</strong> local encontrado</h4>
+        {% endif %}
+    </main>
+
+{% endblock content %}
+
+{% block modal %}
+    {% if excluded %}
+        {% include "partials/point-delete.html" %}
+    {% endif %}
+{% endblock modal %}
