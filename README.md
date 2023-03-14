@@ -19,3 +19,7 @@
 * [CSS] - Utilizado para estilização.
 * [Node.js] - Ferramenta utilizada para o desenvolvimento back-end.
 * [SQLite] - Ferramenta utilizada como banco de dados."# ecoleta" 
+
+>Trabalho BD
+- Ana Julia Alves
+- Rafael Valadares
