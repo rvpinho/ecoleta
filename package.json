@@ -1,5 +1,5 @@
 {
-  "name": "nlwstarter",
+  "name": "ecoleta",
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",

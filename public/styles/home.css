@@ -34,9 +34,22 @@ bordas, cor, fundo, maneira que é vista pelo html (display)
     font-weight: 700;
 }
 
-#page-home header a span{
+#page-home header div a span{
     margin-right: 16px;
     background-image: url('../assets/log-in.svg');
+    width: 20px;
+    height: 20px;
+}
+
+#page-home header div a .link-point{
+    margin-right: 16px;
+    background-image: none;
+    width: 20px;
+    height: 20px;
+}
+
+#page-home .link-point {
+    margin-right: 16px;
     width: 20px;
     height: 20px;
 }

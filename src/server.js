@@ -4,7 +4,7 @@ const nunjucks = require("nunjucks");
 const db = require("./database/db");
 
 //utilizando template engine
-nunjucks.configure("src/views", {
+nunjucks.configure(["src/views", "src/Login"], {
     express: server,
     noCache: true
 });
@@ -18,7 +18,7 @@ server.use(express.urlencoded({extended: true}));
 //Configurar caminhos da Aplicação
 //Página Inicial
 server.get("/", (req, res) => {
-    return res.render("index.html");
+    return res.render("indexLogin.html");
 });
 
 //Criar um Ponto de Coleta
@@ -28,7 +28,7 @@ server.get("/create-point", (req, res) => {
 
 server.post("/savepoint", (req, res) => {
 
-    //Inserir dados no Banco de Dados
+    //Inserir dados no BAnco de Dados
     const query =
     `INSERT INTO places (
         name,
@@ -37,9 +37,10 @@ server.post("/savepoint", (req, res) => {
         address2,
         state,
         city,
-        items
+        items,
+        userId
     ) VALUES (
-        ?,?,?,?,?,?,?
+        ?,?,?,?,?,?,?,?
     );`;
     
     //req.body: Corpo do Formulário
@@ -50,7 +51,8 @@ server.post("/savepoint", (req, res) => {
         req.body.address2,
         req.body.state,
         req.body.city,
-        req.body.items
+        req.body.items,
+        1
     ];
 
     function afterInsertData(err) {
@@ -111,6 +113,33 @@ server.post("/deletepoint", (req, res) => {
     }
 
     db.run(query, afterDeleteData);
+});
+
+server.get("/login", async (req, res) => {
+    return res.render("login.html");
+});
+
+server.post("/handleLogin", async (req, res) => {
+    
+    //Coleta valores do forms
+    let {username, pass} = req.body;
+
+    const query =`SELECT * FROM users WHERE email = '${username}' AND  password = '${pass}';`;
+
+    function afterLoginData(err, row) {
+
+        if (err || !row || !row.id) {
+            return res.render("./partials/error-login.html");
+        }
+
+        return res.render("index.html", {name: row.name});
+    }
+
+    db.get(query, afterLoginData);
+});
+
+server.get("/homeLogin", async (req, res) => {
+    return res.render("index.html", {name: "Rafael"});
 });
 
 //Ligar Servidor
